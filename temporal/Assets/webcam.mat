@@ -1,0 +1,209 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-107540788351142611
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 7
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: webcam
+  m_Shader: {fileID: 4800000, guid: 3c993a1f4da881d4faf9eb2a426f2818, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailAlbedoMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailMask:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OcclusionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Blend: 0
+    - _BlendModePreserveSpecular: 1
+    - _BumpScale: 1
+    - _ClearCoatMask: 0
+    - _ClearCoatSmoothness: 0
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DetailAlbedoMapScale: 1
+    - _DetailNormalMapScale: 1
+    - _DstBlend: 0
+    - _DstBlendAlpha: 0
+    - _EnvironmentReflections: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _Metallic: 0
+    - _OcclusionStrength: 1
+    - _Parallax: 0.005
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _Smoothness: 0.5
+    - _SmoothnessTextureChannel: 0
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _SrcBlendAlpha: 1
+    - _Surface: 0
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    - _a: -0.34413293
+    - _a2: 0.339209
+    - _b: -0.38463673
+    - _b2: 0.433066
+    - _c: -0.1878978
+    - _c2: 0.34596235
+    - _d: 0.062920205
+    - _d2: 0.3171828
+    - _e: 0.25344974
+    - _e2: 0.21200532
+    - _f: -0.3552044
+    - _f1: 0
+    - _f2: 0.17289382
+    - _ff: -0.21006995
+    - _ff2: -0.0695048
+    - _fff: -0.16204453
+    - _fff2: -0.21918184
+    - _frame: 0
+    - _g: 0.029769735
+    - _g2: -0.0519582
+    - _h: -0.16172074
+    - _h2: -0.34966415
+    - _i: -0.16519646
+    - _i2: -0.6936414
+    - _j: -0.16932033
+    - _j2: -0.7858408
+    - _k: -0.16932033
+    - _k2: -0.7858408
+    - _l: -0.037246276
+    - _l2: -0.048865415
+    - _m: -0.11774698
+    - _m2: -0.39302552
+    - _n: -0.0131357005
+    - _n2: -0.7535422
+    - _o: -0.06537951
+    - _o2: -0.82356834
+    - _p: -0.06537951
+    - _p1: 0
+    - _p2: -0.82356834
+    - _p3: 0
+    - _q: 0.53844124
+    - _q2: -0.21439604
+    - _r: 0.54963434
+    - _r2: -0.20484391
+    - _resy: 0
+    - _rs: -0.07560764
+    - _rs2: 0.34917572
+    - _s: 0.54963434
+    - _s1: 0
+    - _s2: -0.20484391
+    - _s3: 0
+    - _speed1: 0
+    - _speed2: 0
+    - _speed3: 0
+    - _t: 0.5176327
+    - _t1: 0
+    - _t2: -0.23075075
+    - _ti: 0
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _ankleLeft: {r: 0.015288488, g: -0.019932454, b: 0, a: 0}
+    - _ankleRight: {r: 0.021849534, g: -0.029620815, b: 0, a: 0}
+    - _color1: {r: 0.45589182, g: 0.7169812, b: 0.474023, a: 0.5}
+    - _color2: {r: 0.6792453, g: 0.24606618, b: 0.59729236, a: 1}
+    - _elbowLeft: {r: 0.004178995, g: 0.0110358065, b: 1.7006843e-18, a: 0}
+    - _elbowRight: {r: 0.09839078, g: 0.05021695, b: 0.99999994, a: 0}
+    - _handLeft: {r: 0.038584962, g: -0.043461923, b: 4.781195e-19, a: 0}
+    - _handRight: {r: 0.087996334, g: -0.057270948, b: 0.04644292, a: 0}
+    - _head: {r: 0.018276552, g: 0.75209194, b: 1, a: 0}
+    - _hipLeft: {r: -0.03772195, g: -0.035168972, b: 1.1106006e-20, a: 0}
+    - _hipRight: {r: 0.007226298, g: -0.07110778, b: 4.0666307e-21, a: 0}
+    - _kneeLeft: {r: -0.014174813, g: -0.00577496, b: 0, a: 0}
+    - _kneeRight: {r: 0.014895936, g: -0.031834543, b: 2.4279727e-38, a: 0}
+    - _shoulderLeft: {r: 0.08632588, g: 0.25567475, b: 1.2070721e-15, a: 0}
+    - _shoulderRight: {r: 0.118748106, g: 0.54067814, b: 0.99999994, a: 0}
+  m_BuildTextureStacks: []
