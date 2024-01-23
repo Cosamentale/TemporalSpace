@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Temporal/scene01.unity
     guid: ea54a912c2520ae4b94151c6488a0317
+  - enabled: 0
+    path: Assets/PoseNet/vid.unity
+    guid: e2b5c35d446157a45ab95d6ff6ff724d
   m_configObjects: {}

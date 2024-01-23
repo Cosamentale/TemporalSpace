@@ -11,16 +11,8 @@ public class temporalSetUp : MonoBehaviour
     {
 
 
-        AVProLiveCameraDevice LiveCamera = AVProLiveCameraManager.Instance.GetDevice(0);
-        for (int j = 0; j < LiveCamera.NumSettings; j++)
-        {
-            AVProLiveCameraSettingBase settingBase = LiveCamera.GetVideoSettingByIndex(j);
-
-            settingBase.IsAutomatic = false;
-            settingBase.SetDefault();
-
-
-        }                                                                                            
+       // AVProLiveCameraDevice LiveCamera = AVProLiveCameraManager.Instance.GetDevice(0);
+                                                                                              
 
     }
     void Update()
@@ -29,8 +21,16 @@ public class temporalSetUp : MonoBehaviour
         AVProLiveCameraSettingBase gainSetting = LiveCamera.GetVideoSettingByIndex(6);
         AVProLiveCameraSettingFloat settingFloat = (AVProLiveCameraSettingFloat)gainSetting;
         settingFloat.CurrentValue = 70 * Gain;
+       /* for (int j = 0; j < LiveCamera.NumSettings; j++)
+        {
+            AVProLiveCameraSettingBase settingBase = LiveCamera.GetVideoSettingByIndex(j);
 
-                                      
+            settingBase.IsAutomatic = false;
+            settingBase.SetDefault();
+
+
+        }  */
+
 
     }
 }

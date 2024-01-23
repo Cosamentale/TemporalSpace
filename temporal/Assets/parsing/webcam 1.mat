@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: webcam
-  m_Shader: {fileID: 4800000, guid: 3c993a1f4da881d4faf9eb2a426f2818, type: 3}
+  m_Name: webcam 1
+  m_Shader: {fileID: 4800000, guid: 3193083915522584fb46d7f52274c946, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -61,7 +61,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 8400000, guid: 4443fbb0f9f4c7c459abc620adb6bc45, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex2:
@@ -77,6 +77,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _PosTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -129,12 +133,16 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     - _a: -0.34413293
+    - _a0: 0.93725693
     - _a2: 0.339209
     - _b: -0.38463673
+    - _b0: 0.43940538
     - _b2: 0.433066
     - _c: -0.1878978
+    - _c0: 0.10030963
     - _c2: 0.34596235
     - _d: 0.062920205
+    - _d0: 0.11653964
     - _d2: 0.3171828
     - _e: 0.25344974
     - _e2: 0.21200532
@@ -172,7 +180,7 @@ Material:
     - _q2: -0.21439604
     - _r: 0.54963434
     - _r2: -0.20484391
-    - _resy: 0
+    - _resy: 270
     - _rs: -0.07560764
     - _rs2: 0.34917572
     - _s: 0.54963434
@@ -191,19 +199,19 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _ankleLeft: {r: 0.015288488, g: -0.019932454, b: 0, a: 0}
-    - _ankleRight: {r: 0.021849534, g: -0.029620815, b: 0, a: 0}
+    - _ankleLeft: {r: 0.005677271, g: 0.008009107, b: 0, a: 0}
+    - _ankleRight: {r: 0.0027960872, g: 0.006978418, b: 0, a: 0}
     - _color1: {r: 0.45589182, g: 0.7169812, b: 0.474023, a: 0.5}
     - _color2: {r: 0.6792453, g: 0.24606618, b: 0.59729236, a: 1}
-    - _elbowLeft: {r: 0.004178995, g: 0.0110358065, b: 1.7006843e-18, a: 0}
-    - _elbowRight: {r: 0.09839078, g: 0.05021695, b: 0.99999994, a: 0}
-    - _handLeft: {r: 0.038584962, g: -0.043461923, b: 4.781195e-19, a: 0}
-    - _handRight: {r: 0.087996334, g: -0.057270948, b: 0.04644292, a: 0}
-    - _head: {r: 0.018276552, g: 0.75209194, b: 1, a: 0}
-    - _hipLeft: {r: -0.03772195, g: -0.035168972, b: 1.1106006e-20, a: 0}
-    - _hipRight: {r: 0.007226298, g: -0.07110778, b: 4.0666307e-21, a: 0}
-    - _kneeLeft: {r: -0.014174813, g: -0.00577496, b: 0, a: 0}
-    - _kneeRight: {r: 0.014895936, g: -0.031834543, b: 2.4279727e-38, a: 0}
-    - _shoulderLeft: {r: 0.08632588, g: 0.25567475, b: 1.2070721e-15, a: 0}
-    - _shoulderRight: {r: 0.118748106, g: 0.54067814, b: 0.99999994, a: 0}
+    - _elbowLeft: {r: 0.007277747, g: 0.0050613666, b: 0, a: 0}
+    - _elbowRight: {r: -0.0010702605, g: 0.0041768486, b: 0, a: 0}
+    - _handLeft: {r: 0.0041751256, g: 0.0027078632, b: 0, a: 0}
+    - _handRight: {r: 0.0023180144, g: 0.0041774707, b: 0, a: 0}
+    - _head: {r: -0.005647265, g: 0.012220949, b: 0, a: 0}
+    - _hipLeft: {r: -0.00060668733, g: 0.0052761976, b: 0, a: 0}
+    - _hipRight: {r: -0.004640899, g: 0.0039568385, b: 0, a: 0}
+    - _kneeLeft: {r: 0.0023598329, g: 0.010311418, b: 0, a: 0}
+    - _kneeRight: {r: -0.002934156, g: 0.011316244, b: 0, a: 0}
+    - _shoulderLeft: {r: -0.00092529575, g: 0.022211025, b: 0, a: 0}
+    - _shoulderRight: {r: -0.0016541274, g: 0.023626521, b: 0, a: 0}
   m_BuildTextureStacks: []

@@ -126,14 +126,13 @@
       }
     },
     "jp.keijiro.bodypix": {
-      "version": "2.2.0",
+      "version": "file:jp.keijiro.bodypix",
       "depth": 0,
-      "source": "registry",
+      "source": "embedded",
       "dependencies": {
         "com.unity.barracuda": "3.0.0",
         "jp.keijiro.klak.nnutils": "1.0.0"
-      },
-      "url": "https://registry.npmjs.com"
+      }
     },
     "jp.keijiro.klak.nnutils": {
       "version": "1.0.0",
@@ -167,6 +166,14 @@
     },
     "jp.keijiro.ultraface": {
       "version": "file:jp.keijiro.ultraface",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.unity.barracuda": "2.1.0-preview"
+      }
+    },
+    "jp.keijiro.yolov4tiny": {
+      "version": "file:jp.keijiro.yolov4tiny",
       "depth": 0,
       "source": "embedded",
       "dependencies": {

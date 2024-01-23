@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 357b4b5aa1137b0468be1dee8c12c1e7, type: 3}
   m_Name: New Dmx Light Profile
   m_EditorClassIdentifier: 
-  modelName: 
+  modelName: prout
   channelCount: 1
   masterChannel: 1
   redChannel: 0

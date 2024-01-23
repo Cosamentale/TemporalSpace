@@ -47,56 +47,16 @@ MonoBehaviour:
   _oscIn: {fileID: 7389153362318505026}
   address1: /f7/f1
   address2: /f7/f2
-  a: 0
-  b: 0
-  c: 0
-  d: 0
-  e: 0
-  f: 0
-  g: 0
-  h: 0
-  i: 0
-  j: 0
-  k: 0
-  l: 0
-  m: 0
-  n: 0
-  o: 0
-  p: 0
-  q: 0
-  r: 0
-  s: 0
-  t: 0
-  a2: 0
-  b2: 0
-  c2: 0
-  d2: 0
-  e2: 0
-  f2: 0
-  ff: 0
-  fff: 0
-  ff2: 0
-  fff2: 0
-  g2: 0
-  g3: 0
-  g4: 0
-  h2: 0
-  i2: 0
-  j2: 0
-  k2: 0
-  l2: 0
-  m2: 0
-  n2: 0
-  o2: 0
-  p2: 0
-  q2: 0
-  r2: 0
-  s2: 0
-  t2: 0
-  rs: 0
-  rs2: 0
-  script: {fileID: 0}
-  mat: {fileID: 0}
+  address3: /f3
+  address4: /f4
+  address5: /f5
+  address6: /f6
+  address7: /f7
+  address8: /f8
+  address9: /f9
+  address10: /f10
+  A: 0
+  B: 0
 --- !u!1 &7389153361283489650
 GameObject:
   m_ObjectHideFlags: 0

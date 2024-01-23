@@ -49,7 +49,20 @@ namespace neoludicGames.uDmx
             ApplyChannel(bytes,zChannel,z);
             return bytes;
         }
-        
+        public byte[] ToBytes2( byte strength)
+        {
+            //Color resultColor = GetAdjustedColor(color, strength);
+            byte[] bytes = new byte[channelCount];
+            if (masterChannel > OFF_CHANNEL) bytes[masterChannel - CHANNEL_OFFSET] = strength;
+           // if (redChannel > OFF_CHANNEL) bytes[redChannel - CHANNEL_OFFSET] = (byte)Mathf.RoundToInt(resultColor.r * byte.MaxValue);
+            //if (greenChannel > OFF_CHANNEL) bytes[greenChannel - CHANNEL_OFFSET] = (byte)Mathf.RoundToInt(resultColor.g * byte.MaxValue);
+           // if (blueChannel > OFF_CHANNEL) bytes[blueChannel - CHANNEL_OFFSET] = (byte)Mathf.RoundToInt(resultColor.b * byte.MaxValue);
+           // ApplyChannel(bytes, strobeChannel, strobe);
+           // ApplyChannel(bytes, xChannel, x);
+           // ApplyChannel(bytes, yChannel, y);
+           // ApplyChannel(bytes, zChannel, z);
+            return bytes;
+        }
         private Color GetAdjustedColor(Color input, byte strength = 255)
         {
             if (mixStrengthWithColors)

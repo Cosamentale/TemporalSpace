@@ -23,9 +23,10 @@ public sealed class modelData : MonoBehaviour
     public float3 ankleRight;
     public float3 ankleLeft;
 
-    
+    public RenderTexture tex;
     public Material mat;
     BodyDetector _detector;
+    //BodyDetector _detector2;
     private Vector3 velocity = Vector3.zero;
     private Vector3 velocity2 = Vector3.zero;
     private Vector3 velocity3 = Vector3.zero;
@@ -42,6 +43,7 @@ public sealed class modelData : MonoBehaviour
 
     public float smoothTime = 0.0f;
     public float maximum = 0.8f;
+    public int res = 128;
     public AVProLiveCamera script2;
     //public InfraredSourceCompute script;
     
@@ -52,19 +54,23 @@ public sealed class modelData : MonoBehaviour
     void Start()
     {
         Application.runInBackground = true;
-        _detector = new BodyDetector(_resources, 480, 164);
+        _detector = new BodyDetector(_resources, res , res);
+       // _detector2 = new BodyDetector(_resources, res, res);
     }
     void OnDestroy()
     {
         _detector?.Dispose();
         _detector = null;
+       // _detector2?.Dispose();
+      // _detector2 = null;
     }
 
     void Update()
     {
        
 
-        _detector.ProcessImage(script2.OutputTexture);
+        _detector.ProcessImage(tex);
+       // _detector2.ProcessImage(tex);
         var hand2 = _detector.Keypoints[(int)Body.KeypointID.RightWrist];
         var hand = _detector.Keypoints[(int)Body.KeypointID.LeftWrist];
         var head = _detector.Keypoints[(int)Body.KeypointID.Nose];
