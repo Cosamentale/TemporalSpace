@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 109877194}
   - component: {fileID: 109877192}
   - component: {fileID: 109877195}
+  - component: {fileID: 109877196}
   m_Layer: 0
   m_Name: capture
   m_TagString: Untagged
@@ -149,7 +150,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109877191}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 084760e3cb272cd4bb5ec5a2d49a20aa, type: 3}
   m_Name: 
@@ -157,6 +158,7 @@ MonoBehaviour:
   Tex: {fileID: 0}
   captureCounter: 1
   frame: 0
+  script: {fileID: 1556182015}
 --- !u!4 &109877193
 Transform:
   m_ObjectHideFlags: 0
@@ -179,7 +181,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 109877191}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 42077e4204bb7844da1901f07ca67ac6, type: 3}
   m_Name: 
@@ -192,6 +194,7 @@ MonoBehaviour:
   resy: 64
   capture: {fileID: 109877192}
   ti: 0
+  startTime: 0
 --- !u!114 &109877195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +207,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3626085a68e71d41802f35bb6a9ba62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &109877196
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 109877191}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 317fcf1c84885964abc158c5e4375e13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sc: {fileID: 109877191}
+  script: {fileID: 1556182015}
+  stop: 0
 --- !u!1 &111344213
 GameObject:
   m_ObjectHideFlags: 0
@@ -213,9 +231,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 111344215}
-  - component: {fileID: 111344219}
-  - component: {fileID: 111344220}
-  - component: {fileID: 111344218}
   - component: {fileID: 111344221}
   m_Layer: 0
   m_Name: Catcher Controller
@@ -239,120 +254,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &111344218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111344213}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd7977dd7c4f46747881e77feb27c5a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _resources: {fileID: 11400000, guid: 2f407a69dfb2e1e48a0b559630c28676, type: 2}
-  handRight:
-    x: 0
-    y: 0
-    z: 0
-  handLeft:
-    x: 0
-    y: 0
-    z: 0
-  headc:
-    x: 0
-    y: 0
-    z: 0
-  shoulderRight:
-    x: 0
-    y: 0
-    z: 0
-  shoulderLeft:
-    x: 0
-    y: 0
-    z: 0
-  elbowRight:
-    x: 0
-    y: 0
-    z: 0
-  elbowLeft:
-    x: 0
-    y: 0
-    z: 0
-  hipRight:
-    x: 0
-    y: 0
-    z: 0
-  hipLeft:
-    x: 0
-    y: 0
-    z: 0
-  kneeRight:
-    x: 0
-    y: 0
-    z: 0
-  kneeLeft:
-    x: 0
-    y: 0
-    z: 0
-  ankleRight:
-    x: 0
-    y: 0
-    z: 0
-  ankleLeft:
-    x: 0
-    y: 0
-    z: 0
-  tex: {fileID: 8400000, guid: 8471d68cfc2ce134f9bb67cdead18b29, type: 2}
-  mat: {fileID: 2100000, guid: e1fece71f25986f4ea0c9644f79d898e, type: 2}
-  smoothTime: 0.1
-  maximum: 0.8
-  res: 720
-  script2: {fileID: 160225336}
---- !u!114 &111344219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111344213}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9b052af97e504397ab00e3e52bbd084, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _threshold: 0.5
-  _resources: {fileID: 11400000, guid: 4bdfe4ce1192248c69b07ffd4bb583c2, type: 2}
-  mat: {fileID: 2100000, guid: e1fece71f25986f4ea0c9644f79d898e, type: 2}
-  smoothTime: 0
-  a: 0
-  b: 0
-  c: 0
-  dd: 0
-  script2: {fileID: 160225336}
-  script1: {fileID: 111344220}
---- !u!114 &111344220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 111344213}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b5b1a7d6e7e85c48b565b688367802c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  compute_shader: {fileID: 7200000, guid: edaeaf87cebdeea41804881108994c46, type: 3}
-  material: {fileID: 2100000, guid: e1fece71f25986f4ea0c9644f79d898e, type: 2}
-  a: 0
-  b: 0
-  c: 0
-  d: 0
-  script1: {fileID: 111344218}
-  script2: {fileID: 160225336}
-  res: 720
 --- !u!114 &111344221
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,8 +279,8 @@ MonoBehaviour:
   nmsRadius: 100
   minConfidence: 70
   previousHipPosition: {x: 0, y: 0, z: 0}
-  closestSkeletonIndex: -1
-  closestSkeletonIndex2: -1
+  closestSkeletonIndex: 0
+  closestSkeletonIndex2: 0
   pos0: {x: 0, y: 0, z: 0, w: 0}
   pos1: {x: 0, y: 0, z: 0, w: 0}
   pos2: {x: 0, y: 0, z: 0, w: 0}
@@ -421,7 +322,7 @@ GameObject:
   - component: {fileID: 160225338}
   - component: {fileID: 160225339}
   m_Layer: 0
-  m_Name: Camera01 (1)
+  m_Name: Webcam
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -827,7 +728,9 @@ MonoBehaviour:
   address37: /AnkleRightX
   address38: /AnkleRightY
   address39: /AnkleRightZ
+  adresse40: /stopR
   script2: {fileID: 111344221}
+  script: {fileID: 109877196}
   fac1: 0
   fac2: 0
 --- !u!1001 &1514095818
@@ -840,7 +743,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1443868067, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1443868068, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: mat
@@ -857,6 +760,14 @@ PrefabInstance:
     - target: {fileID: 1443868068, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: address2
       value: /HandLeftSpeed
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443868068, guid: db007439e938c834eb4289805f2880ef, type: 3}
+      propertyPath: address3
+      value: /startR
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443868068, guid: db007439e938c834eb4289805f2880ef, type: 3}
+      propertyPath: address4
+      value: /playR
       objectReference: {fileID: 0}
     - target: {fileID: 1443868068, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: m_Enabled
@@ -889,7 +800,7 @@ PrefabInstance:
     - target: {fileID: 7389153361283489648, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: script
       value: 
-      objectReference: {fileID: 111344218}
+      objectReference: {fileID: 0}
     - target: {fileID: 7389153361283489648, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: _oscOut
       value: 
@@ -992,7 +903,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7389153362318505026, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7389153362318505026, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: _udpBufferSize
@@ -1056,7 +967,7 @@ PrefabInstance:
       objectReference: {fileID: 183006669}
     - target: {fileID: 7389153362318505027, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: _mode
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7389153362318505027, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: _port
@@ -1072,7 +983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7389153362318505027, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: _remoteIpAddress
-      value: 127.0.0.1
+      value: 169.254.138.242
       objectReference: {fileID: 0}
     - target: {fileID: 7389153362318505037, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: m_Name

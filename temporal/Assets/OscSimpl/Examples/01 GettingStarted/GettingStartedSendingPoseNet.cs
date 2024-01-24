@@ -45,10 +45,12 @@ namespace OscSimpl.Examples
         public string address37 = "/AnkleLeftX";
         public string address38 = "/AnkleLeftY";
         public string address39 = "/AnkleLeftZ";
+        public string adresse40 = "/stopR";
         private string LocalIPTarget;  
         //public float floatValue;
         //public float floatValue2;
         public PoseEstimator script2;
+        public CaptureActivation script;
         public float fac1;
         public float fac2;
         void Start()
@@ -119,7 +121,10 @@ namespace OscSimpl.Examples
             _oscOut.Send(address37, script2.pos11.x * 10);
             _oscOut.Send(address38, script2.pos11.y * 10);
             _oscOut.Send(address39, script2.pos11.z);
-
+            if (script.stop == 1)
+            {
+                _oscOut.Send(adresse40, 1.0f);
+            }
         }
 	}
 }

@@ -1,15 +1,16 @@
 using UnityEngine;
 using UnityEditor;
 //using Unity.Barracuda;
+using OscSimpl.Examples;
 using System.IO;
 //using RenderHeads.Media.AVProLiveCamera;
 public class SaveTextureToFile : MonoBehaviour
 {
-
     public RenderTexture Tex;
     public int captureCounter = 1;
     public float frame;
     private float previousFrame = 0.0f;
+    public GettingStartedReceiving script;
     void Start()
     {
 
@@ -20,8 +21,8 @@ public class SaveTextureToFile : MonoBehaviour
         {
             SaveRTToFile(Tex, captureCounter);
             captureCounter++;
+            script.startR = 0;
         }
-
         previousFrame = frame;
     }
     public static void SaveRTToFile(RenderTexture rt,int captureCounter)
@@ -37,15 +38,8 @@ public class SaveTextureToFile : MonoBehaviour
         bytes = tex.EncodeToPNG();
         Object.Destroy(tex);
 
-        // Define the path where you want to save the PNG file
-        //string path = Application.persistentDataPath + "/capture" + captureCounter + ".png";
         string path = "D:/GIT/TemporalSpace/Captures" + "/capture" + + captureCounter + ".png";
-
-        // Write the bytes to the file
         File.WriteAllBytes(path, bytes);
-        //ebug.Log("File path: " + path);
-        // Optional: You can import the asset if needed
-        // UnityEditor.AssetDatabase.ImportAsset(path);
     }
 
 }

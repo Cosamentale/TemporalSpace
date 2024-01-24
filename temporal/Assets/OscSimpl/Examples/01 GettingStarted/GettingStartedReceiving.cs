@@ -27,6 +27,7 @@ namespace OscSimpl.Examples
         private int Nbr_portIn;
         public float A;
         public float B;
+        public float startR;
         void Start()
         {
             Nbr_portIn = _oscIn.port;
@@ -48,16 +49,20 @@ namespace OscSimpl.Examples
             //_oscIn.Map( address2, OnCusto );
             _oscIn.MapFloat(address1, In_Trigger1);
             _oscIn.MapFloat(address2, In_Trigger2);
+            _oscIn.MapFloat(address3, In_Trigger3);
 
-        }
-
-        void In_Trigger2(float value)
-        {
-           A = value;
         }
         void In_Trigger1(float value)
         {
+           A = value;
+        }
+        void In_Trigger2(float value)
+        {
            B = value;
+        }
+        void In_Trigger3(float value)
+        {
+            startR = value;
         }
         void OnDisable()
         {
@@ -74,9 +79,5 @@ namespace OscSimpl.Examples
             //  Debug.Log("Received f7/f1" + "\n");
 
         }
-
-    
-
-    
     }
 }
