@@ -2,18 +2,18 @@
 
 namespace OscSimpl.Examples
 {
-	public class GettingStartedSendingVid : MonoBehaviour
-	{
-		[SerializeField] OscOut _oscOut;
-     //   [SerializeField] OscOut _oscOut2;
+    public class GettingStartedSendingVid : MonoBehaviour
+    {
+        [SerializeField] OscOut _oscOut;
+        //   [SerializeField] OscOut _oscOut2;
         OscMessage _message2; // Cached message.
-       
+
         private int Nbr_portOut;
         public string address1 = "/HandRightX";
         public string address2 = "/HandRightY";
         public string address3 = "/HandRightZ";
         public string address4 = "/HandLeftX";
-		public string address5 = "/HandLeftY";
+        public string address5 = "/HandLeftY";
         public string address6 = "/HandLeftZ";
         public string address7 = "/HeadX";
         public string address8 = "/HeadY";
@@ -48,23 +48,23 @@ namespace OscSimpl.Examples
         public string address37 = "/AnkleLeftX";
         public string address38 = "/AnkleLeftY";
         public string address39 = "/AnkleLeftZ";
-        private string LocalIPTarget;  
+        private string LocalIPTarget;
         //public float floatValue;
         //public float floatValue2;
-        public PoseEstimatorVid script2;
-       // public computeRenderVid script2;
+        public PoseEstimatorVid1 script2;
+        // public computeRenderVid script2;
         public float fac1;
         public float fac2;
         void Start()
-		{
+        {
             LocalIPTarget = _oscOut.remoteIpAddress;
             Nbr_portOut = _oscOut.port;
-           // LocalIPTarget = "192.168.1.25";
+            // LocalIPTarget = "192.168.1.25";
             // Ensure that we have a OscOut component.
-            if ( !_oscOut ) _oscOut = gameObject.AddComponent<OscOut>();
+            if (!_oscOut) _oscOut = gameObject.AddComponent<OscOut>();
 
-			// Prepare for sending messages locally on this device on port 7000.
-			_oscOut.Open(Nbr_portOut, LocalIPTarget);
+            // Prepare for sending messages locally on this device on port 7000.
+            _oscOut.Open(Nbr_portOut, LocalIPTarget);
 
             // ... or, alternatively target remote devices with a IP Address.
             //oscOut.Open( 7000, "192.168.1.101" );
@@ -80,12 +80,14 @@ namespace OscSimpl.Examples
             //_oscOut.Send( _message2 );
             // _oscOut.Send(address2, 0.6f);
             //fac1 = 10.0f / script.imageDims.x;
-           // fac2 = 10.0f / script.imageDims.y;
+            // fac2 = 10.0f / script.imageDims.y;
         }
 
 
-		void Update()
-		{
+        void Update()
+        { }
+    }
+}
 
             /*   _oscOut.Send(address1, script.posePositions[10].x * fac1);
                _oscOut.Send(address2, script.posePositions[10].y * fac2);
@@ -128,7 +130,7 @@ namespace OscSimpl.Examples
                _oscOut.Send(address39, script.posePositions[15].z );        */
             //"nose", "leftShoulder", "rightShoulder", "leftElbow", "rightElbow", "leftWrist", "rightWrist", 
             //"leftHip", "rightHip", "leftKnee", "rightKnee", "leftAnkle", "rightAnkle"
-
+           /*
             _oscOut.Send(address1, script2.pos0.x * 10);
             _oscOut.Send(address2, script2.pos0.y * 10);
             _oscOut.Send(address3, script2.pos0.z );
@@ -169,4 +171,4 @@ namespace OscSimpl.Examples
 
         }
 	}
-}
+}    */

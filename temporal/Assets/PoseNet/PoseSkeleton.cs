@@ -37,22 +37,20 @@ public class PoseSkeleton
         return keypoints;
     }
 
-    public void UpdateKeyPointPositions(Utils.Keypoint[] keypoints, int minConfidence, Vector2Int imageDims)
+    public void UpdateKeyPointPositions(Utils.Keypoint[] keypoints, Vector2Int imageDims)
     {
         for (int k = 0; k < keypoints.Length; k++)
         {
-          /*  if (keypoints[k].score >= minConfidence / 100f)
+            if (keypoints[k].score >0.0f)
             {
-                Vector2 coords = keypoints[k].position;
-                this.keypoints[k] = new Vector3(coords.x, imageDims.y - coords.y, 10);
+                Vector2 coords = keypoints[k].position/ imageDims;
+                this.keypoints[k] = new Vector3(coords.x, 1 - coords.y, keypoints[k].score);
             }
             else
             {
                 this.keypoints[k] = MissingKeypoint;
-            }  */
-             Vector2 coords = keypoints[k].position ;
-            this.keypoints[k] = new Vector3(coords.x, imageDims.y - coords.y, keypoints[k].score );
-            //  this.keypoints[k] = new Vector3(coords.x, coords.y, keypoints[k].score);
+            }  
+           
         }
     }
 }

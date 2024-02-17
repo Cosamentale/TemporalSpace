@@ -38,13 +38,21 @@ public class CaptureActivation : MonoBehaviour
             // Reset 'stop' to 0
             stop = 0;
         }
-    }
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            //Debug.Log("C key pressed");
+            sc.GetComponent<computeRender>().enabled = true;
+          //  sc.GetComponent<computeRender>().startTime = Time.frameCount;
+         //   sc.GetComponent<computeRender>().startTime2 = Time.time;
+        }
+    }
     void EnableComputeRender()
     {
         sc.GetComponent<computeRender>().enabled = true;
         isComputeRenderEnabled = true;
-        sc.GetComponent<computeRender>().startTime = Time.frameCount;
+     //   sc.GetComponent<computeRender>().startTime = Time.frameCount;
+     //   sc.GetComponent<computeRender>().startTime2 = Time.time;
     }
 
     void DisableComputeRender()

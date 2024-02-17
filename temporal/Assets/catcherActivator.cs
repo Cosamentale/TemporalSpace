@@ -5,6 +5,7 @@ using UnityEngine;
 public class catcherActivator : MonoBehaviour
 {
     public GameObject ai;
+    public GameObject ai2;
     void Start()
     {
         
@@ -16,6 +17,7 @@ public class catcherActivator : MonoBehaviour
         if (Time.time  >3)
         {
             ai.SetActive ( true);
+            ai2.SetActive(true);
         }
     }
 }

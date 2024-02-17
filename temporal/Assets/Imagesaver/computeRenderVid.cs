@@ -12,7 +12,7 @@ public class computeRenderVid : MonoBehaviour
     RenderTexture A;
     RenderTexture B;
     int handle_main;
-    public PoseEstimatorVid script;
+    public PoseEstimatorVid1 script;
     public int resx = 128;
     public int resy = 128;
     public Vector4 pos0;
@@ -69,7 +69,7 @@ public class computeRenderVid : MonoBehaviour
         //"nose", "leftShoulder", "rightShoulder", "leftElbow", "rightElbow", "leftWrist", "rightWrist", 
         //"leftHip", "rightHip", "leftKnee", "rightKnee", "leftAnkle", "rightAnkle"
         compute_shader.SetTexture(handle_main, "reader", A);
-        compute_shader.SetVector("_pos0", script.pos0);
+        /*compute_shader.SetVector("_pos0", script.pos0);
         compute_shader.SetVector("_pos1", script.pos1);
         compute_shader.SetVector("_pos2", script.pos2);
         compute_shader.SetVector("_pos3", script.pos3);
@@ -80,7 +80,7 @@ public class computeRenderVid : MonoBehaviour
         compute_shader.SetVector("_pos8", script.pos8);
         compute_shader.SetVector("_pos9", script.pos9);
         compute_shader.SetVector("_pos10", script.pos10);
-        compute_shader.SetVector("_pos11", script.pos11);
+        compute_shader.SetVector("_pos11", script.pos11);  */
         compute_shader.SetFloat("_time", ti);
         compute_shader.SetTexture(handle_main, "writer", B);
         compute_shader.Dispatch(handle_main, B.width / 8, B.height / 8, 1);

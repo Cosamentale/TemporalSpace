@@ -7,23 +7,49 @@ using System.IO;
 public class SaveTextureToFile : MonoBehaviour
 {
     public RenderTexture Tex;
-    public int captureCounter = 1;
+    public GettingStartedReceiving osc;
+    public computeRender compute;
+    public TextureComparator resnet;
+    public int captureCounter = 0;
     public float frame;
     private float previousFrame = 0.0f;
-    public GettingStartedReceiving script;
+    private float previousPhase2 = 1.0f;
+    private float previousPhaseR = 0.0f;
+    private bool textureSavedThisFrame ;
     void Start()
     {
 
     }
     private void Update()
     {
+        float phase2 = osc.Phase2;
+        
+        if (phase2 == 0 && previousPhase2 == 1)
+        {
+            compute.enabled = true;
+            compute.startTime2 = Time.time;
+        }
+        previousPhase2 = phase2;
+        if (phase2 == 1 && previousPhaseR == 0)
+        {
+            resnet.enabled = true;
+        }
+        
         if (frame > previousFrame && Mathf.Floor(frame) > Mathf.Floor(previousFrame))
         {
-            SaveRTToFile(Tex, captureCounter);
+            SaveRTToFile(Tex,(int)osc.NbrR);
+            compute.enabled = false;
             captureCounter++;
-            script.startR = 0;
+        }
+        else if (phase2 == 1 && previousPhaseR == 0 && frame < previousFrame && Mathf.Floor(frame) < Mathf.Floor(previousFrame))
+        {
+            SaveRTToFile(Tex, (int)osc.NbrR);
+            compute.enabled = false;
+            captureCounter++;
         }
         previousFrame = frame;
+        previousPhaseR = phase2;
+ 
     }
     public static void SaveRTToFile(RenderTexture rt,int captureCounter)
     {
@@ -37,8 +63,9 @@ public class SaveTextureToFile : MonoBehaviour
         byte[] bytes;
         bytes = tex.EncodeToPNG();
         Object.Destroy(tex);
-
-        string path = "D:/GIT/TemporalSpace/Captures" + "/capture" + + captureCounter + ".png";
+        string counterString = captureCounter.ToString("0000");
+        // string path = "//MSI/Index/64Img" + "/capture" +  captureCounter + ".png";
+        string path = "D:/GIT/TemporalSpace/temporal/Assets/StreamingAssets/Capture" + "/capture"+ counterString + ".png";
         File.WriteAllBytes(path, bytes);
     }
 

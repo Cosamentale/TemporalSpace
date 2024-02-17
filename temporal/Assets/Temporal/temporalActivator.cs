@@ -11,7 +11,7 @@ public class temporalActivator : MonoBehaviour
     public temporalSetUp script;
     public GameObject OSC;
     public AVProLiveCamera cam1;
-    //public AVProLiveCamera cam2;
+    public AVProLiveCamera cam2;
     //public AVProLiveCamera cam3;
     public float restartTime;
     void Start()
@@ -31,7 +31,7 @@ public class temporalActivator : MonoBehaviour
             OSC.SetActive(true);
             script.enabled = false;
             cam1._updateSettings = false;
-           // cam2._updateSettings = false;
+            cam2._updateSettings = false;
             //cam3._updateSettings = false;
 
         }

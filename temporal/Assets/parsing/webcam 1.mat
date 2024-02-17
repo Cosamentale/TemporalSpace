@@ -21,7 +21,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: webcam 1
-  m_Shader: {fileID: 4800000, guid: 3193083915522584fb46d7f52274c946, type: 3}
+  m_Shader: {fileID: 4800000, guid: d898fb4425544c44f84607c78ef95b82, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -61,7 +61,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 8400000, guid: 4443fbb0f9f4c7c459abc620adb6bc45, type: 2}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex2:
@@ -191,8 +191,9 @@ Material:
     - _speed2: 0
     - _speed3: 0
     - _t: 0.5176327
-    - _t1: 0
-    - _t2: -0.23075075
+    - _t1: 1
+    - _t2: 2
+    - _t3: 3
     - _ti: 0
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
@@ -212,6 +213,7 @@ Material:
     - _hipRight: {r: -0.004640899, g: 0.0039568385, b: 0, a: 0}
     - _kneeLeft: {r: 0.0023598329, g: 0.010311418, b: 0, a: 0}
     - _kneeRight: {r: -0.002934156, g: 0.011316244, b: 0, a: 0}
+    - _posTest: {r: 0.69, g: 0.3, b: 0, a: 0}
     - _shoulderLeft: {r: -0.00092529575, g: 0.022211025, b: 0, a: 0}
     - _shoulderRight: {r: -0.0016541274, g: 0.023626521, b: 0, a: 0}
   m_BuildTextureStacks: []

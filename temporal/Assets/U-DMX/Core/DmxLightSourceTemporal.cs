@@ -14,13 +14,19 @@ namespace neoludicGames.uDmx
 
         public int LightAddress => dmxAddresses.Length > 0 ? dmxAddresses[0] : 0;
 
-        public void SetLightAddress(int[] values)
+        /* public void SetLightAddress(int[] values)
+         {
+             dmxAddresses = values;
+             // Ensure that the lightStrengths array has the same length as dmxAddresses
+           //  Array.Resize(ref lightStrengths, dmxAddresses.Length);
+         }   */
+        void Start()
         {
-            dmxAddresses = values;
-            // Ensure that the lightStrengths array has the same length as dmxAddresses
-          //  Array.Resize(ref lightStrengths, dmxAddresses.Length);
+            for (int i = 0; i < dmxAddresses.Length; i++)
+            {
+                dmxAddresses[i] = i + 1;
+            }
         }
-
         public void SetStrength(int index, float newStrength)
         {
             if (index >= 0 && index < lightStrengths.Length)

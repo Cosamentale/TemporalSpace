@@ -118,7 +118,7 @@ Shader "Unlit/DefaultPoseNet1"
 
 			float l1 = step(distance(i.uv.x, _pos1),0.001)+ step(distance(i.uv.x, _pos2a), 0.001)+ step(distance(i.uv.x, _pos3), 0.001);
 
-                return lerp( col*0.5 +d1*0.4 ,float4(1.,0.,0.,1.), pow(p,0.45))+l1*0.25;
+                return lerp( col*0.5 +d1*0.4 ,float4(1.,0.,0.,1.), p)+l1*0.25;
             }
             ENDCG
         }

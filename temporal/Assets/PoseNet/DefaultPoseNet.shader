@@ -5,6 +5,7 @@ Shader "Unlit/DefaultPoseNet"
         _MainTex ("Texture", 2D) = "black" {}
 		//_PosTex("_PosTex", 2D) = "black0"{}
 		//_Pos("_pos", Vector[]) = (0,0,0,0)
+		_posTest("_posTest",Vector) = (0,0,0,0)
     }
     SubShader
     {
@@ -28,9 +29,11 @@ Shader "Unlit/DefaultPoseNet"
             };
             sampler2D _MainTex;
             float4 _MainTex_ST;
+			float4 _posTest;
 			sampler2D _PosTex;
 			float3 _pos[17];
 			float3 _pos2[17];
+			float3 _pos3[17];
 			float _resx;
 			float _resy;
 			float _resx2;
@@ -39,7 +42,7 @@ Shader "Unlit/DefaultPoseNet"
 			float _pr;
 			float _pos1;
 			float _pos2a;
-			float _pos3;
+			float _pos3a;
 			float _pp;
             v2f vert (appdata v)
             {
@@ -63,17 +66,21 @@ Shader "Unlit/DefaultPoseNet"
                 fixed4 col = tex2D(_MainTex, i.uv);
 			float2 re = float2(16. / 9.,1.);
 			float d1 = 0.;
+			float d2 = 0.;
+			float d3 = 0.;
 			for (int j = 0; j < 17; j++)
 			{
-				if (_pos[j].z > 2.) {
-					d1 += smoothstep(0.01,0.009,distance(i.uv*re, _pos[j].xy / float2(_resx, _resy)*re));
-				}
+				
+					d1 += smoothstep(0.01,0.009,distance(i.uv*re, _pos[j].xy *re));
+				
 			}
 			for (int j = 0; j < 17; j++)
 			{
-				if (_pos2[j].z > 2.) {
-					d1 += smoothstep(0.01, 0.009, distance(i.uv*re, _pos2[j].xy / float2(_resx, _resy)*re));
-				}
+					d2 += smoothstep(0.01, 0.009, distance(i.uv*re, _pos2[j].xy *re));
+			}
+			for (int j = 0; j < 17; j++)
+			{
+				d3 += smoothstep(0.01, 0.009, distance(i.uv*re, _pos3[j].xy *re));
 			}
 			/*float p2 = 0.;
 			for (int k = 0; k < 2; k++) {
@@ -82,7 +89,7 @@ Shader "Unlit/DefaultPoseNet"
 				 p2 += step(distance(i.uv*re, re*tex2D(_PosTex, u2).xy*float2(1., _resx / _resy) - float2(0., 0.)), 0.05)/(1.+k);
 			}*/
 			//float m2 = step(itn*frac((_time - (_resx - 1.)) / (_resx* itn)), mod(uv.y*_resy, itn));
-			
+			/*
 			float itn = floor(_resy2 / 12.);
 			float it = _resy2 / itn;
 			float2 u0 = float2(frac(_time / _resx2), frac(_time / _resx2 / itn) / it );
@@ -120,13 +127,16 @@ Shader "Unlit/DefaultPoseNet"
 			p += smoothstep(0.004, 0.00, li(i.uv*re, ((tex2D(_PosTex, u9).xy - 0.5) *_pr + tex2D(_PosTex, u7).xy)*re, tex2D(_PosTex, u7).xy*re));
 			p += smoothstep(0.004, 0.00, li(i.uv*re, ((tex2D(_PosTex, u10).xy - 0.5)*_pr + tex2D(_PosTex, u7).xy)*re, tex2D(_PosTex, u7).xy*re));
 			p += smoothstep(0.004, 0.00, li(i.uv*re, ((tex2D(_PosTex, u11).xy - 0.5)*_pr + tex2D(_PosTex, u7).xy)*re, tex2D(_PosTex, u7).xy*re));
-
-			float l1 = step(distance(i.uv.x, _pos1),0.001)+ step(distance(i.uv.x, _pos2a), 0.001)+ step(distance(i.uv.x, _pos3), 0.001);
-			float2 ub = float2(map(i.uv.x,0.025,0.12,0.,1.), map(i.uv.y, 0.7, 0.95, 0., 1.));
+			*/
+			float3 l1 = step(distance(i.uv.x, _pos1),0.002)*float3(1.,0.,0.)+ step(distance(i.uv.x, _pos2a), 0.002)*float3(0.,0.,1.)+ step(distance(i.uv.x, _pos3a), 0.002)*float3(0.,1.,0.);
+			float2 ub = float2(map(i.uv.x,0.025,0.16,0.,1.), map(i.uv.y, 0.7, 0.95, 0., 1.));
 			float b1 = step( distance(ub.x, 0.5),0.5)* step(distance(ub.y, 0.5), 0.5);
-			float2 pp = float2(0.5, map(_pp, 0., 0.45, 0., 1.));
-			float rc = lerp(0., 0.5, step(0.1,distance(ub, pp)));
-                return  lerp(lerp( col +d1*0.4 ,float4(1.,0.,0.,1.), pow(p,0.45)),float4(rc,rc,rc,1.),b1)+l1*0.25;
+			float ppt = map(_posTest.y, 0.07, 0.3, 0., 1.);
+			float2 pp = float2(map(_posTest.x, lerp(0., 0.27, ppt), lerp(1.,0.7,ppt),0.,1.),ppt);
+			float rc = lerp(0., 0.5, step(0.1,distance(ub, pp)));	
+			float4 pt = step(distance(i.uv*re, _posTest.xy*re), 0.005)*float4(0.5, 0., 0.5, 0.);
+
+                return  lerp(lerp( col +d1*float4(1.,0.,0.,1.)+d2*float4(0.,0.,1.,1.)+d3*float4(0., 1., 0., 1.),float4(1.,0.,0.,1.), 0.),float4(rc,rc,rc,1.),b1)+float4(l1,1.)*0.5+pt;
             }
             ENDCG
         }

@@ -28,7 +28,7 @@ void CSMain (uint2 id : SV_DispatchThreadID)
 	float2 res=float2(_resx, _resy);
 	float2 uv = f / res;
 	float itn = floor(_resy / 12.);
-	float4 t1 = reader.SampleLevel(_pointClamp, uv + 0.5 / res, 0);
+	float4 t1 = reader.SampleLevel(_pointClamp, uv + 0.5 / res, 0)*step(1.,_time);
 
 	float m1 = step(frac(_time / _resx), uv.x);
 	float m2 = max(step(itn*frac((_time-(_resx-1.)) / (_resx* itn)), mod(uv.y*_resy, itn)), step(frac(_time/itn/_resx),1. / itn-1./_resx));

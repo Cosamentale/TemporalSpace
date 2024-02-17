@@ -17,7 +17,7 @@ public class PoseEstimatorVid : MonoBehaviour
         SinglePose
     }
     public Material material;
-    //public AVProLiveCamera script2;
+    public PoseEstimatorVid1 script2;
     [Tooltip("The ComputeShader that will perform the model-specific preprocessing")]
     public ComputeShader posenetShader;
     [Tooltip("Use GPU for preprocessing")]
@@ -38,9 +38,7 @@ public class PoseEstimatorVid : MonoBehaviour
     public float scoreThreshold = 0.25f;
     [Tooltip("Non-maximum suppression part distance")]
     public int nmsRadius = 100;
-    [Tooltip("The minimum confidence level required to display the key point")]
-    [Range(0, 100)]
-    public int minConfidence = 70;
+    public float smoothingTime = 0.2f;
     // The texture used to create input tensor
     private RenderTexture rTex;
     // The preprocessing function for the current model type
@@ -79,37 +77,30 @@ public class PoseEstimatorVid : MonoBehaviour
     // public Vector3[] posePositions;
     //public Vector3[] posePositions2;
     private Vector3 smoothDampVelocity;
-    public int closestSkeletonIndex = -1;
+    private Vector3 smoothDampVelocity2;
+    public int closestSkeletonIndex = 0;
+    public int closestSkeletonIndex2 = 0;
+    public int closestSkeletonIndex3 = 0;
+    public int closestSkeletonIndex2Candidate = -1;
 
-    private Vector2 p0;
-    private Vector2 p1;
-    private Vector2 p2;
-    private Vector2 p3;
-    private Vector2 p4;
-    private Vector2 p5;
-    private Vector2 p6;
-    private Vector2 p8;
-    private Vector2 p9;
-    private Vector2 p10;
-    private Vector2 p11;
 
-    public Vector4 pos0;
-    public Vector4 pos1;
-    public Vector4 pos2;
-    public Vector4 pos3;
-    public Vector4 pos4;
-    public Vector4 pos5;
-    public Vector4 pos6;
-    public Vector4 pos7;
-    public Vector4 pos8;
-    public Vector4 pos9;
-    public Vector4 pos10;
-    public Vector4 pos11;
-
+    public float pbr;
     public float pr;
     public float pp;
+    public float ps2;
+    public float ps3;
+
+    public Vector4 posc7;
+    public float pcr;
     public Vector3 previousHipPosition;
+    public Vector3 previousHipPosition2;
     private Vector2 a = new Vector2(0.5f, 0.5f);
+    private Vector4[] posePositionsArray = new Vector4[17];
+    private Vector4[] posePositionsArray2 = new Vector4[17];
+    private Vector4[] posePositionsArray3 = new Vector4[17];
+    public float[] posZ1 = new float[14];
+    public float[] posZ2 = new float[14];
+    public float[] posZ3 = new float[14];
     //public Vector3[] pos;
     /// <param name="width"></param>
     /// <param name="height"></param>
@@ -118,11 +109,11 @@ public class PoseEstimatorVid : MonoBehaviour
     private void InitializeBarracuda()
     {
         Model m_RunTimeModel;
-     
-            preProcessFunction = Utils.PreprocessMobileNet;
-            m_RunTimeModel = ModelLoader.Load(mobileNetModelAsset);
-            displacementFWDLayer = m_RunTimeModel.outputs[2];
-            displacementBWDLayer = m_RunTimeModel.outputs[3];
+
+        preProcessFunction = Utils.PreprocessMobileNet;
+        m_RunTimeModel = ModelLoader.Load(mobileNetModelAsset);
+        displacementFWDLayer = m_RunTimeModel.outputs[2];
+        displacementBWDLayer = m_RunTimeModel.outputs[3];
         heatmapLayer = m_RunTimeModel.outputs[0];
         offsetsLayer = m_RunTimeModel.outputs[1];
         ModelBuilder modelBuilder = new ModelBuilder(m_RunTimeModel);
@@ -136,12 +127,19 @@ public class PoseEstimatorVid : MonoBehaviour
         for (int i = 0; i < maxPoses; i++) skeletons[i] = new PoseSkeleton();
     }
     void Start()
-    {     
+    {
         rTex = new RenderTexture(imageDims.x, imageDims.y, 24, RenderTextureFormat.ARGBHalf);
         InitializeBarracuda();
         InitializeSkeletons();
         material.SetFloat("_resx", imageDims.x);
-        material.SetFloat("_resy", imageDims.y);     
+        material.SetFloat("_resy", imageDims.y);
+        for (int j = 0; j < 17; j++)
+        {
+            posePositionsArray3[j] = new Vector4(0, 0, 0, 0);
+            posePositionsArray2[j] = new Vector4(0, 0, 0, 0);
+            posePositionsArray[j] = new Vector4(0, 0, 0, 0);
+
+        }
     }
     /// <param name="image"></param>
     /// <param name="functionName"></param>
@@ -224,87 +222,273 @@ public class PoseEstimatorVid : MonoBehaviour
     }
     void Update()
     {
+        float[] posePositionsscore = new float[17];
+        float[] posePositionsscore2 = new float[17];
+        float[] posePositionsscore3 = new float[17];
         Graphics.Blit(Tex, rTex);
         ProcessImage(rTex);
         engine.worker.Execute(input);
         input.Dispose();
         ProcessOutput(engine.worker);
+        float closestDistance = 2000.0f;
+        float closestDistance2 = 3000.0f;
 
-        Vector4[] posePositionsArray = new Vector4[maxPoses * 17];
-        Vector4[] posePositionsArray2 = new Vector4[maxPoses * 17];
-        //int closestSkeletonIndex = -1;
-        float closestDistance = float.MaxValue;
-        float closestDistance2 = float.MaxValue;
-        for (int i = 0; i < skeletons.Length; i++)
+        for (int i = 0; i < poses.Length; i++)
         {
-            if (i <= poses.Length - 1)
+
+            skeletons[i].UpdateKeyPointPositions(poses[i], imageDims);
+            //Vector3[] keyPoints = skeletons[i].keypoints;
+
+            float hipX = skeletons[0].keypoints[0].x;
+
+            float distanceToHip = Vector3.Distance(new Vector3(skeletons[i].keypoints[0].x,
+                skeletons[i].keypoints[0].y, script2.pt0), previousHipPosition);
+
+            float distanceToHip2 = Vector3.Distance(new Vector3(skeletons[i].keypoints[0].x,
+               skeletons[i].keypoints[0].y, 0), previousHipPosition2);
+
+            if (distanceToHip < closestDistance)
             {
-                skeletons[i].UpdateKeyPointPositions(poses[i], minConfidence, imageDims);
-                Vector3[] keyPoints = skeletons[i].GetKeyPoints();
-                material.SetFloat("_pos1", skeletons[0].GetKeyPoints()[0].x / imageDims.x);
-                material.SetFloat("_pos2a", skeletons[1].GetKeyPoints()[0].x / imageDims.x);
-                material.SetFloat("_pos3", skeletons[2].GetKeyPoints()[0].x / imageDims.x);
-                float hipX = keyPoints[0].x;
+                closestDistance = distanceToHip;
+                closestSkeletonIndex = i;
+            }
+            if (distanceToHip2 < closestDistance2)
+            {
+                closestDistance2 = distanceToHip2;
+                closestSkeletonIndex2Candidate = i;
+            }
 
-                float distanceToHip = Vector3.Distance((new Vector3(keyPoints[0].x, keyPoints[0].y, keyPoints[0].z) + new Vector3(keyPoints[5].x, keyPoints[5].y, keyPoints[5].z)
-                    + new Vector3(keyPoints[12].x, keyPoints[12].y, keyPoints[12].z)) / 3, previousHipPosition);
 
-                if (distanceToHip < closestDistance)
+        }
+        if (closestSkeletonIndex2Candidate != closestSkeletonIndex)
+        {
+            closestSkeletonIndex2 = closestSkeletonIndex2Candidate;
+        }
+        if (closestSkeletonIndex == 0)
+        {
+            Vector3[] keyPoints0 = skeletons[0].keypoints;
+            if (closestSkeletonIndex2 == 1)
+            {
+                Vector3[] keyPoints1 = skeletons[1].keypoints;
+                Vector3[] keyPoints2 = skeletons[2].keypoints;
+                for (int j = 0; j < 17; j++)
                 {
-                    closestDistance = distanceToHip;
-                    closestSkeletonIndex = i;
-
-                    // Set the first set of pose positions
-                    for (int j = 0; j < 17; j++)
-                    {
-                        int index = j;
-                        posePositionsArray[index] = new Vector4(keyPoints[j].x, keyPoints[j].y, keyPoints[j].z, 1);
-                        // posePositions[index] = keyPoints[j];
-                    }
+                    int index = j;
+                    posePositionsArray2[index] = new Vector4(keyPoints1[j].x, keyPoints1[j].y, 0, 1);
+                    posePositionsscore2[index] = keyPoints1[j].z;
                 }
-               
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray3[index] = new Vector4(keyPoints2[j].x, keyPoints2[j].y, 0, 1);
+                    posePositionsscore3[index] = keyPoints2[j].z;
+                }
+            }
+            if (closestSkeletonIndex2 == 2)
+            {
+                Vector3[] keyPoints1 = skeletons[2].keypoints;
+                Vector3[] keyPoints2 = skeletons[1].keypoints;
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray2[index] = new Vector4(keyPoints1[j].x, keyPoints1[j].y, 0, 1);
+                    posePositionsscore2[index] = keyPoints1[j].z;
+                }
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray3[index] = new Vector4(keyPoints2[j].x, keyPoints2[j].y, 0, 1);
+                    posePositionsscore3[index] = keyPoints2[j].z;
+                }
+            }
+            for (int j = 0; j < 17; j++)
+            {
+                int index = j;
+                posePositionsArray[index] = new Vector4(keyPoints0[j].x, keyPoints0[j].y, 0, 1);
+                posePositionsscore[index] = keyPoints0[j].z;
             }
         }
-        previousHipPosition = SmoothValue((new Vector3(skeletons[closestSkeletonIndex].GetKeyPoints()[0].x, skeletons[closestSkeletonIndex].GetKeyPoints()[0].y, skeletons[closestSkeletonIndex].GetKeyPoints()[0].z) +
-            new Vector3(skeletons[closestSkeletonIndex].GetKeyPoints()[5].x, skeletons[closestSkeletonIndex].GetKeyPoints()[5].y, skeletons[closestSkeletonIndex].GetKeyPoints()[5].z) +
-            new Vector3(skeletons[closestSkeletonIndex].GetKeyPoints()[12].x, skeletons[closestSkeletonIndex].GetKeyPoints()[12].y, skeletons[closestSkeletonIndex].GetKeyPoints()[12].z)) / 3);
-        material.SetVectorArray("_pos", posePositionsArray);
-        material.SetVectorArray("_pos2", posePositionsArray2);
+        if (closestSkeletonIndex == 1)
+        {
+            Vector3[] keyPoints0 = skeletons[1].keypoints;
+            if (closestSkeletonIndex2 == 0)
+            {
+                Vector3[] keyPoints1 = skeletons[0].keypoints;
+                Vector3[] keyPoints2 = skeletons[2].keypoints;
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray2[index] = new Vector4(keyPoints1[j].x, keyPoints1[j].y, 0, 1);
+                    posePositionsscore2[index] = keyPoints1[j].z;
+                }
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray3[index] = new Vector4(keyPoints2[j].x, keyPoints2[j].y, 0, 1);
+                    posePositionsscore3[index] = keyPoints2[j].z;
+                }
+            }
+            if (closestSkeletonIndex2 == 2)
+            {
+                Vector3[] keyPoints1 = skeletons[2].keypoints;
+                Vector3[] keyPoints2 = skeletons[0].keypoints;
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray2[index] = new Vector4(keyPoints1[j].x, keyPoints1[j].y, 0, 1);
+                    posePositionsscore2[index] = keyPoints1[j].z;
+                }
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray3[index] = new Vector4(keyPoints2[j].x, keyPoints2[j].y, 0, 1);
+                    posePositionsscore3[index] = keyPoints2[j].z;
+                }
+            }
+            for (int j = 0; j < 17; j++)
+            {
+                int index = j;
+                posePositionsArray[index] = new Vector4(keyPoints0[j].x, keyPoints0[j].y, 0, 1);
+                posePositionsscore[index] = keyPoints0[j].z;
+            }
+        }
+        if (closestSkeletonIndex == 2)
+        {
+            Vector3[] keyPoints0 = skeletons[2].keypoints;
+            if (closestSkeletonIndex2 == 1)
+            {
+                Vector3[] keyPoints1 = skeletons[1].keypoints;
+                Vector3[] keyPoints2 = skeletons[0].keypoints;
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray2[index] = new Vector4(keyPoints1[j].x, keyPoints1[j].y, 0, 1);
+                    posePositionsscore2[index] = keyPoints1[j].z;
+                }
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray3[index] = new Vector4(keyPoints2[j].x, keyPoints2[j].y, 0, 1);
+                    posePositionsscore3[index] = keyPoints2[j].z;
+                }
+            }
+            if (closestSkeletonIndex2 == 0)
+            {
+                Vector3[] keyPoints1 = skeletons[0].keypoints;
+                Vector3[] keyPoints2 = skeletons[1].keypoints;
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray2[index] = new Vector4(keyPoints1[j].x, keyPoints1[j].y, 0, 1);
+                    posePositionsscore2[index] = keyPoints1[j].z;
+                }
+                for (int j = 0; j < 17; j++)
+                {
+                    int index = j;
+                    posePositionsArray3[index] = new Vector4(keyPoints2[j].x, keyPoints2[j].y, 0, 1);
+                    posePositionsscore3[index] = keyPoints2[j].z;
+                }
+            }
+            for (int j = 0; j < 17; j++)
+            {
+                int index = j;
+                posePositionsArray[index] = new Vector4(keyPoints0[j].x, keyPoints0[j].y, 0, 1);
+                posePositionsscore[index] = keyPoints0[j].z;
+            }
+        }
+        previousHipPosition = Vector3.SmoothDamp(previousHipPosition, new Vector3(skeletons[closestSkeletonIndex].keypoints[0].x, skeletons[closestSkeletonIndex].keypoints[0].y, script2.pt0), ref smoothDampVelocity, smoothingTime);
+        previousHipPosition2 = Vector3.SmoothDamp(previousHipPosition2, new Vector3(skeletons[closestSkeletonIndex2].keypoints[0].x, skeletons[closestSkeletonIndex2].keypoints[0].y, 0), ref smoothDampVelocity2, smoothingTime);
+
         //"nose", "leftShoulder", "rightShoulder", "leftElbow", "rightElbow", "leftWrist", "rightWrist", "leftHip", "rightHip", "leftKnee", "rightKnee", "leftAnkle", "rightAnkle"
-        pos7 = new Vector4((posePositionsArray[11].x + posePositionsArray[12].x) / imageDims.x * 0.5f, (posePositionsArray[11].y + posePositionsArray[12].y) / imageDims.y * 0.5f, (posePositionsArray[11].z + posePositionsArray[12].z) * 0.05f, 0);
-        Vector2 p72 = new Vector2(pos7.x, pos7.y);
-        pr = 5 * Vector2.Distance(p72, new Vector2((posePositionsArray[5].x + posePositionsArray[6].x) / imageDims.x, (posePositionsArray[5].y + posePositionsArray[6].y) / imageDims.y) * 0.5f);
-        p0 = ((new Vector2(posePositionsArray[0].x / imageDims.x, posePositionsArray[0].y / imageDims.y) - p72) / pr + a);
-        p1 = ((new Vector2(posePositionsArray[5].x / imageDims.x, posePositionsArray[5].y / imageDims.y) - p72) / pr + a);
-        p2 = ((new Vector2(posePositionsArray[6].x / imageDims.x, posePositionsArray[6].y / imageDims.y) - p72) / pr + a);
-        p3 = ((new Vector2(posePositionsArray[7].x / imageDims.x, posePositionsArray[7].y / imageDims.y) - p72) / pr + a);
-        p4 = ((new Vector2(posePositionsArray[8].x / imageDims.x, posePositionsArray[8].y / imageDims.y) - p72) / pr + a);
-        p5 = ((new Vector2(posePositionsArray[9].x / imageDims.x, posePositionsArray[9].y / imageDims.y) - p72) / pr + a);
-        p6 = ((new Vector2(posePositionsArray[10].x / imageDims.x, posePositionsArray[10].y / imageDims.y) - p72) / pr + a);
-        p8 = ((new Vector2(posePositionsArray[13].x / imageDims.x, posePositionsArray[13].y / imageDims.y) - p72) / pr + a);
-        p9 = ((new Vector2(posePositionsArray[14].x / imageDims.x, posePositionsArray[14].y / imageDims.y) - p72) / pr + a);
-        p10 = ((new Vector2(posePositionsArray[15].x / imageDims.x, posePositionsArray[15].y / imageDims.y) - p72) / pr + a);
-        p11 = ((new Vector2(posePositionsArray[16].x / imageDims.x, posePositionsArray[16].y / imageDims.y) - p72) / pr + a);
-        pos0 = new Vector4(p0.x, p0.y, posePositionsArray[0].z, 0);
-        pos1 = new Vector4(p1.x, p1.y, posePositionsArray[5].z, 0);
-        pos2 = new Vector4(p2.x, p2.y, posePositionsArray[6].z, 0);
-        pos3 = new Vector4(p3.x, p3.y, posePositionsArray[7].z, 0);
-        pos4 = new Vector4(p4.x, p4.y, posePositionsArray[8].z, 0);
-        pos5 = new Vector4(p5.x, p5.y, posePositionsArray[9].z, 0);
-        pos6 = new Vector4(p6.x, p6.y, posePositionsArray[10].z, 0);
-        pos8 = new Vector4(p8.x, p8.y, posePositionsArray[13].z, 0);
-        pos9 = new Vector4(p9.x, p9.y, posePositionsArray[14].z, 0);
-        pos10 = new Vector4(p10.x, p10.y, posePositionsArray[15].z, 0);
-        pos11 = new Vector4(p11.x, p11.y, posePositionsArray[16].z, 0);
-        pp = (posePositionsArray[15].y / imageDims.y + posePositionsArray[16].y / imageDims.y) / 2;
+        if (posePositionsscore[0] > 0) {
+            material.SetVectorArray("_pos", posePositionsArray);
+            Vector2 p72 = new Vector2((posePositionsArray[11].x + posePositionsArray[12].x) * 0.5f, (posePositionsArray[11].y + posePositionsArray[12].y) * 0.5f);
+            pr = 5 * Vector2.Distance(p72, new Vector2((posePositionsArray[5].x + posePositionsArray[6].x), (posePositionsArray[5].y + posePositionsArray[6].y)) * 0.5f);
+            pp = (posePositionsArray[15].y + posePositionsArray[16].y) / 2;
+            posZ1[0] = (posePositionsArray[0].x - p72.x) / pr + 0.5f;
+            posZ1[1] = (posePositionsArray[5].x - p72.x) / pr + 0.5f;
+            posZ1[2] = (posePositionsArray[6].x - p72.x) / pr + 0.5f;
+            posZ1[3] = (posePositionsArray[7].x - p72.x) / pr + 0.5f;
+            posZ1[4] = (posePositionsArray[8].x - p72.x) / pr + 0.5f;
+            posZ1[5] = (posePositionsArray[9].x - p72.x) / pr + 0.5f;
+            posZ1[6] = (posePositionsArray[10].x - p72.x) / pr + 0.5f;
+            posZ1[7] = p72.x;
+            posZ1[8] = (posePositionsArray[13].x - p72.x) / pr + 0.5f;
+            posZ1[9] = (posePositionsArray[14].x - p72.x) / pr + 0.5f;
+            posZ1[10] = (posePositionsArray[15].x - p72.x) / pr + 0.5f;
+            posZ1[11] = (posePositionsArray[16].x - p72.x) / pr + 0.5f;
+            posZ1[12] = posePositionsArray[0].x;
+            posZ1[13] = posePositionsArray[0].y;
+        }
+        else { pr = 10; }
+        if(posePositionsscore2[0] > 0) {
+            material.SetVectorArray("_pos2", posePositionsArray2);
+        Vector2 p7b2 = new Vector2((posePositionsArray2[11].x + posePositionsArray2[12].x) * 0.5f, (posePositionsArray2[11].y + posePositionsArray2[12].y) * 0.5f);
+        pbr = 5 * Vector2.Distance(p7b2, new Vector2((posePositionsArray2[5].x + posePositionsArray2[6].x), (posePositionsArray2[5].y + posePositionsArray2[6].y)) * 0.5f);
+
+        posZ2[0] = (posePositionsArray2[0].x - p7b2.x) / pr + 0.5f;
+        posZ2[1] = (posePositionsArray2[5].x - p7b2.x) / pr + 0.5f;
+        posZ2[2] = (posePositionsArray2[6].x - p7b2.x) / pr + 0.5f;
+        posZ2[3] = (posePositionsArray2[7].x - p7b2.x) / pr + 0.5f;
+        posZ2[4] = (posePositionsArray2[8].x - p7b2.x) / pr + 0.5f;
+        posZ2[5] = (posePositionsArray2[9].x - p7b2.x) / pr + 0.5f;
+        posZ2[6] = (posePositionsArray2[10].x - p7b2.x) / pr + 0.5f;
+        posZ2[7] = p7b2.x;
+        posZ2[8] = (posePositionsArray2[13].x - p7b2.x) / pr + 0.5f;
+        posZ2[9] = (posePositionsArray2[14].x - p7b2.x) / pr + 0.5f;
+        posZ2[10] = (posePositionsArray2[15].x - p7b2.x) / pr + 0.5f;
+        posZ2[11] = (posePositionsArray2[16].x - p7b2.x) / pr + 0.5f;
+        posZ2[12] = posePositionsArray2[0].x;
+        posZ2[13] = posePositionsArray2[0].y;
+        }
+        else { pbr = 10; }
+         if (poses.Length > 1)
+            {
+            ps2 = 1;
+            }
+        else
+        {
+            ps2 = 0;
+         
+        }
+        if(posePositionsscore3[0] > 0) {
+            material.SetVectorArray("_pos3", posePositionsArray3);
+            Vector2 p7c2 = new Vector2((posePositionsArray3[11].x + posePositionsArray3[12].x) * 0.5f, (posePositionsArray3[11].y + posePositionsArray3[12].y) * 0.5f);
+            pcr = 5 * Vector2.Distance(p7c2, new Vector2((posePositionsArray3[5].x + posePositionsArray3[6].x), (posePositionsArray3[5].y + posePositionsArray3[6].y)) * 0.5f);
+            ps3 = posePositionsscore3[0];
+            posZ3[0] = (posePositionsArray3[0].x - p7c2.x) / pr + 0.5f;
+            posZ3[1] = (posePositionsArray3[5].x - p7c2.x) / pr + 0.5f;
+            posZ3[2] = (posePositionsArray3[6].x - p7c2.x) / pr + 0.5f;
+            posZ3[3] = (posePositionsArray3[7].x - p7c2.x) / pr + 0.5f;
+            posZ3[4] = (posePositionsArray3[8].x - p7c2.x) / pr + 0.5f;
+            posZ3[5] = (posePositionsArray3[9].x - p7c2.x) / pr + 0.5f;
+            posZ3[6] = (posePositionsArray3[10].x - p7c2.x) / pr + 0.5f;
+            posZ3[7] = p7c2.x;
+            posZ3[8] = (posePositionsArray3[13].x - p7c2.x) / pr + 0.5f;
+            posZ3[9] = (posePositionsArray3[14].x - p7c2.x) / pr + 0.5f;
+            posZ3[10] = (posePositionsArray3[15].x - p7c2.x) / pr + 0.5f;
+            posZ3[11] = (posePositionsArray3[16].x - p7c2.x) / pr + 0.5f;
+            posZ3[12] = posePositionsArray3[0].x;
+            posZ3[13] = posePositionsArray3[0].y;
+        }  else { pcr = 10; }
+            if (poses.Length > 2)
+            {
+                ps3 = 1;
+            }
+            else
+            {
+                ps3 = 0;
+           
+            }
 
         material.SetFloat("_pr", pr);
         material.SetFloat("_pp", pp);
-    }
-    Vector3 SmoothValue(Vector3 inputValue)
-    {
-        float smoothingTime = 2.5f;
-        return Vector3.SmoothDamp(previousHipPosition, inputValue, ref smoothDampVelocity, smoothingTime);
+        material.SetFloat("_pos1", skeletons[0].keypoints[0].x);
+        material.SetFloat("_pos2a", skeletons[1].keypoints[0].x);
+        material.SetFloat("_pos3a", skeletons[2].keypoints[0].x);
+        material.SetFloatArray("_score", posePositionsscore);
+        material.SetFloatArray("_score1", posePositionsscore2);
+        material.SetFloatArray("_score2", posePositionsscore3);
     }
     private void OnDisable()
     {
