@@ -179,7 +179,7 @@ MonoBehaviour:
   scoreThreshold: 0.25
   nmsRadius: 50
   smoothingTime: 0.2
-  score: 0.3
+  score: 0.45
   closestSkeletonIndex: 0
   closestSkeletonIndex2: 0
   closestSkeletonIndex3: 0
@@ -1532,7 +1532,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7389153362318505027, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: _remoteIpAddress
-      value: 169.254.138.242
+      value: 169.254.92.193
       objectReference: {fileID: 0}
     - target: {fileID: 7389153362318505037, guid: db007439e938c834eb4289805f2880ef, type: 3}
       propertyPath: m_Name
@@ -2592,6 +2592,7 @@ MonoBehaviour:
   address34: /PS11Y
   address35: /PS12X
   address36: /PS12Y
+  adresse37: /ScoreGhost
   script2: {fileID: 1781748238}
   resnet: {fileID: 1647573254}
   fac1: 0
@@ -2627,6 +2628,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modelFile: {fileID: 5022602860645237092, guid: c257045a3b57b9c4b8b7d9d8864cb9b4, type: 3}
   result: 0
+  score: 0
   B: {fileID: 8400000, guid: 9a115bbd3e697b741a1596e6a610bf3c, type: 2}
 --- !u!4 &1647573255
 Transform:
@@ -2700,7 +2702,7 @@ MonoBehaviour:
   scoreThreshold: 0.25
   nmsRadius: 50
   smoothingTime: 0.2
-  score: 0.3
+  score: 0.45
   closestSkeletonIndex: 0
   closestSkeletonIndex2: 0
   closestSkeletonIndex3: 0

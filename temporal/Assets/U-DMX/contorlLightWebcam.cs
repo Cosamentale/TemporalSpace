@@ -99,7 +99,7 @@ public class contorlLightWebcam : MonoBehaviour
         float pp6 = -10;
         if (script.person1 > 1)
         {
-            float ppt2 = map(script.pp, 0.0f, 0.3f, 0.0f, 1.0f);
+            float ppt2 = map(script.pp, 0.18f, 0.38f, 0.0f, 1.0f);
              pp2 = map(script.pos1[7].x, lerp(0.0f, 0.23f, ppt2), lerp(1.0f, 0.7f, ppt2), 0.0f, 1.0f);
              pp = map(script.pos1[7].z, lerp(0.23f, 0.0f, pp2), lerp(0.7f, 1.0f, pp2), 0.0f, 1.0f);
             if (!startpe) 
@@ -126,7 +126,7 @@ public class contorlLightWebcam : MonoBehaviour
 
         if (script.person2 > 1)
         {
-        float ppt3 = map(script.ppb, 0.0f, 0.3f, 0.0f, 1.0f);
+        float ppt3 = map(script.ppb, 0.18f, 0.38f, 0.0f, 1.0f);
          pp4 = map(script.pos2[7].x, lerp(0.0f, 0.23f, ppt3), lerp(1.0f, 0.7f, ppt3), 0.0f, 1.0f);
          pp3 = map(script.pos2[7].z, lerp(0.23f, 0.0f, pp4), lerp(0.7f, 1.0f, pp4), 0.0f, 1.0f);
 
@@ -146,7 +146,7 @@ public class contorlLightWebcam : MonoBehaviour
         }
         if (script.person3 > 1)
         {
-            float ppt5 = map(script.ppc, 0.0f, 0.3f, 0.0f, 1.0f);
+            float ppt5 = map(script.ppc, 0.18f, 0.38f, 0.0f, 1.0f);
             pp6 = map(script.pos3[7].x, lerp(0.0f, 0.23f, ppt5), lerp(1.0f, 0.7f, ppt5), 0.0f, 1.0f);
             pp5 = map(script.pos3[7].z, lerp(0.0f, 0.23f, pp6), lerp(1.0f, 0.7f, pp6), 0.0f, 1.0f);
             if (!startpe3)

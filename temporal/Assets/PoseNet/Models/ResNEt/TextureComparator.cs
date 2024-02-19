@@ -12,6 +12,7 @@ public class TextureComparator : MonoBehaviour
     private List<float[]> textureFeatures;
     //public Texture2D inputTexture;
     public float result;
+    public float score;
     public RenderTexture B;
     void OnEnable()
     {
@@ -92,6 +93,7 @@ public class TextureComparator : MonoBehaviour
         Debug.Log("Closest texture match: " + closestTextureIndex);
         Debug.Log("Similarity score: " + maxSimilarity);
         result = closestTextureIndex;
+        score = maxSimilarity;
         enabled = false;
     }
 

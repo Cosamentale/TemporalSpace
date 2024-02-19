@@ -47,6 +47,7 @@ namespace OscSimpl.Examples
         public string address34 = "/PS11Y";
         public string address35 = "/PS12X";
         public string address36 = "/PS12Y";
+        public string adresse37 = "/ScoreGhost";
 
 
         private string LocalIPTarget;
@@ -124,6 +125,7 @@ namespace OscSimpl.Examples
             _oscOut.Send(address34, 1f - script2.pns[11].y);
             _oscOut.Send(address35, script2.pns[12].x);
             _oscOut.Send(address36, 1f - script2.pns[12].y);
+            _oscOut.Send(adresse37, resnet.score);
 
         }
     }
