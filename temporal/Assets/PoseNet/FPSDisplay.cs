@@ -3,7 +3,7 @@ using UnityEngine;
 public class FPSDisplay : MonoBehaviour
 {
     float deltaTime = 0.0f;
-    public computeRender script;
+   
     void Update()
     {
         deltaTime += (Time.unscaledDeltaTime - deltaTime) * 0.1f;
@@ -25,8 +25,8 @@ public class FPSDisplay : MonoBehaviour
         float fps = 1.0f / deltaTime;
 
         string fpsText = string.Format("{0:0.0} ms ({1:0.} fps)", msec, fps);
-        string ti2Text = "Capture Time: " + script.ti2.ToString();
-        string labelText = fpsText + "\n" + ti2Text;
+        //string ti2Text = "Capture Time: " + script.ti2.ToString();
+        string labelText = fpsText + "\n" ;
 
         GUI.Label(rect, labelText, style);
 

@@ -115,6 +115,7 @@ public class PoseEstimator : MonoBehaviour
     public int framesConditionTrueA = 0; // Counter to keep track of frames the condition is true for mpa
     public int framesConditionTrueB = 0; // Counter to keep track of frames the condition is true for mpb
     public int framesConditionTrueC = 0; // Counter to keep track of frames the condition is true for mpc
+    private bool isImageModified;
     //public Vector3[] pos;
     /// <param name="width"></param>
     /// <param name="height"></param>
@@ -229,6 +230,19 @@ public class PoseEstimator : MonoBehaviour
     }
     void Update()
     {
+       /* if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (isImageModified)
+            {
+                imageDims = new Vector2Int(960, 540);
+                isImageModified = false;
+            }
+            else
+            {
+                imageDims = new Vector2Int(480, 270);
+                isImageModified = true;
+            }
+        }   */
         float[] posePositionsscore = new float[17];
         float[] posePositionsscore2 = new float[17];
         float[] posePositionsscore3 = new float[17];

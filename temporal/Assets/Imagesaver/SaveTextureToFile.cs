@@ -13,8 +13,8 @@ public class SaveTextureToFile : MonoBehaviour
     public int captureCounter = 0;
     public float frame;
     private float previousFrame = 0.0f;
-    private float previousPhase2 = 1.0f;
-    private float previousPhaseR = 0.0f;
+    private float previousPhase2 = 0.0f;
+    private float previousPhaseR = 1.0f;
     private bool textureSavedThisFrame ;
     void Start()
     {

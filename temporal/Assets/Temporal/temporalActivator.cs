@@ -14,6 +14,8 @@ public class temporalActivator : MonoBehaviour
     public AVProLiveCamera cam2;
     //public AVProLiveCamera cam3;
     public float restartTime;
+    public GameObject object1;
+    public GameObject object2;
     void Start()
     {
         restartTime = Time.time;
@@ -35,7 +37,15 @@ public class temporalActivator : MonoBehaviour
             //cam3._updateSettings = false;
 
         }
-    
+        if (Input.GetKeyDown(KeyCode.V))
+        {
+            ToggleObjects();
+        }
     }
-
+    void ToggleObjects()
+    {
+        // Toggle the active state of object1 and object2
+        object1.SetActive(!object1.activeSelf);
+        object2.SetActive(!object2.activeSelf);
+    }
 }
